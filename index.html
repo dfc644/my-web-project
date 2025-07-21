@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <!-- 适配移动端 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>环境检测与跳转</title>
+  <style>
+    /* 页面基础样式，还原截图风格 */
+    body {
+      margin: 0; 
+      padding: 0; 
+      background: #0b1016; 
+      font-family: "PingFang SC", "微软雅黑", sans-serif; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh;
+    }
+    .container {
+      width: 90%; 
+      max-width: 500px; 
+      background: rgba(11, 16, 22, 0.8); 
+      border-radius: 10px; 
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); 
+      color: #fff; 
+      padding: 25px; 
+      text-align: center;
+    }
+    .title {
+      font-size: 24px; 
+      color: #00ffff; 
+      margin-bottom: 15px; 
+      line-height: 1.4;
+    }
+    .desc {
+      font-size: 16px; 
+      margin-bottom: 20px; 
+      color: #d1d1d1;
+    }
+    .step-item {
+      display: flex; 
+      align-items: center; 
+      background: #141e28; 
+      margin-bottom: 12px; 
+      padding: 12px 15px; 
+      border-radius: 6px;
+    }
+    .step-item span {
+      width: 24px; 
+      height: 24px; 
+      background: #00ffff; 
+      color: #0b1016; 
+      border-radius: 50%; 
+      line-height: 24px; 
+      text-align: center; 
+      font-weight: bold; 
+      margin-right: 10px;
+    }
+    .step-item p {
+      flex: 1; 
+      text-align: left; 
+      color: #d1d1d1;
+    }
+    .copy-btn {
+      width: 80%; 
+      margin: 20px auto 0; 
+      padding: 12px 0; 
+      background: transparent; 
+      border: 2px solid #00ffff; 
+      color: #00ffff; 
+      border-radius: 30px; 
+      font-size: 16px; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover {
+      background: #00ffff; 
+      color: #0b1016;
+    }
+    /* 隐藏非微信环境的提示容器 */
+    .wechat-tip {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- 微信环境提示容器 -->
+  <div class="container wechat-tip" id="wechatTip">
+    <h1 class="title">精选黑科技丨影视丨音乐丨TV丨小说丨动漫丨安卓丨电脑软件</h1>
+    <p class="desc">检测到访问环境限制，请按照以下步骤在浏览器打开</p>
+    <div class="step-item">
+      <span>1</span>
+      <p>点击页面右上角···</p>
+    </div>
+    <div class="step-item">
+      <span>2</span>
+      <p>选择【在浏览器打开】选项</p>
+    </div>
+    <div class="step-item">
+      <span>3</span>
+      <p>完成浏览器打开并进入网站资源区</p>
+    </div>
+    <button class="copy-btn" onclick="copyUrl()">或者点此复制网址，到浏览器打开</button>
+  </div>
+
+  <script>
+    // 替换为你实际要跳转的网址
+    const TARGET_URL = "https://h5.zhaoxirj.cn/"; 
+
+    // 检测是否为微信浏览器
+    function isWeChatBrowser() {
+      return /MicroMessenger/i.test(navigator.userAgent);
+    }
+
+    // 复制网址逻辑
+    function copyUrl() {
+      navigator.clipboard.writeText(TARGET_URL).then(() => {
+        alert('网址已复制，快去浏览器打开吧~');
+      }).catch(err => {
+        console.error('复制失败:', err);
+        alert('复制失败，请手动复制网址');
+      });
+    }
+
+    // 核心逻辑：根据环境判断显示/跳转
+    window.onload = function() {
+      const wechatTip = document.getElementById('wechatTip');
+      if (isWeChatBrowser()) {
+        // 微信内打开：显示提示
+        wechatTip.style.display = 'block';
+      } else {
+        // 非微信环境：自动跳转
+        window.location.href = TARGET_URL;
+      }
+    };
+  </script>
+</body>
+</html>
